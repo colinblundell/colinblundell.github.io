@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta name='mobile-web-app-capable' content='yes'>
+  <title>Wake Lock Test Page</title>
+  <style>
+    #log {
+      border: 1px solid black;
+      background: rgba(182, 182, 182, 0.5);
+    }
+  </style>
+</head>
+<script>
+  function log(str) {
+    document.getElementById('log').innerHTML += '<div>' + str + '</div>';
+  }
+
+  function isInScreenInterface(str) {
+    return (str in window.screen);
+  }
+
+  function isAPIPresent() {
+    return isInScreenInterface('keepAwake');
+  }
+
+  addEventListener('load', function() {
+    var hasAPI = isAPIPresent();
+    if (!hasAPI) {
+      log('Wake Lock API not found.');
+      return;
+    }
+
+    log('Wake Lock API found.');
+  });
+</script>
+<body>
+  <div>colinblundell.github.com</div>
+  <button type='button' onclick='block();'>Block sleep</button><br>
+  <button type='button' onclick='unblock();'>Unblock sleep</button><br>
+  <div id='log'></div>
+  <script>
+  function block() {
+    screen.keepAwake = true;
+  }
+
+  function unblock() {
+    screen.keepAwake = false;
+  }
+</script>
+</body>
+</html>
+
