@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, user-scalable=no">
+  <meta name='mobile-web-app-capable' content='yes'>
+  <title>NFC Test Page</title>
+  <style>
+    #log {
+      border: 1px solid black;
+      background: rgba(182, 182, 182, 0.5);
+    }
+  </style>
+</head>
+<script>
+  function log(str) {
+    document.getElementById('log').innerHTML += '<div>' + str + '</div>';
+  }
+
+  function isInNavigatorInterface(str) {
+    return (str in navigator);
+  }
+
+  function isAPIPresent() {
+    return isInNavigatorInterface('nfc');
+  }
+
+  addEventListener('load', function() {
+    var hasAPI = isAPIPresent();
+    if (!hasAPI) {
+      log('NFC API not found.');
+      return;
+    }
+
+    log('NFC API found.');
+  });
+</script>
+<body>
+  <div>colinblundell.github.com</div>
+  <button type='button' onclick='push();'>Execute NFC push operation</button><br>
+  <div id='log'></div>
+  <script>
+  function push() {
+    navigator.nfc.push("Sending NFC push message!");
+  }
+</script>
+</body>
+</html>
+
