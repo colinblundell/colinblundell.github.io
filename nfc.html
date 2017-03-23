@@ -40,7 +40,12 @@
   <div id='log'></div>
   <script>
   function push() {
-    navigator.nfc.push("Sending NFC push message!");
+    navigator.nfc.push("Sending NFC push message!")
+    .then(() => {
+        console.log("Message pushed.");
+    }).catch((error) => {
+        console.log("Push failed with error: " + error.message);
+    });
   }
 </script>
 </body>
