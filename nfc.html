@@ -37,6 +37,7 @@
 <body>
   <div>colinblundell.github.com</div>
   <button type='button' onclick='push();'>Execute NFC push operation</button><br>
+  <button type='button' onclick='watch();'>Execute NFC watch operation</button><br>
   <div id='log'></div>
   <script>
   function push() {
@@ -46,6 +47,45 @@
     }).catch((error) => {
         log("Push failed with error: " + error.message);
     });
+  }
+  function watch() {
+    navigator.nfc.watch((message) => {
+      if (message.data[0].recordType == 'empty') {
+        log('Read empty message');
+      } else {
+        log('Read message written by ' + message.url);
+        processMessage(message);
+      }
+    }).then(() => {
+      console.log("Added a watch.");
+    }).catch((error) => {
+      console.log("Adding watch failed: " + error.name);
+    });
+
+    function processMessage(message) {
+      for (let record of message.data) {
+        switch (record.recordType) {
+          case "text":
+            log('Data is text: ' + record.data);
+            break;
+          case "url":
+            log('Data is URL: ' + record.data);
+            break;
+          case "json":
+            log('JSON data: ' + record.data.myProperty.toString());
+            break;
+          case "opaque":
+            if (record.mediaType == 'image/png') {
+              var img = document.createElement("img");
+              img.src = URL.createObjectURL(new Blob(record.data, record.mediaType));
+              img.onload = function() {
+                window.URL.revokeObjectURL(this.src);
+              };
+            }
+            break;
+        }
+      }
+    }
   }
 </script>
 </body>
