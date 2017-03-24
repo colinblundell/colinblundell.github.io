@@ -36,12 +36,15 @@
 </script>
 <body>
   <div>colinblundell.github.com</div>
-  <button type='button' onclick='push();'>Execute NFC push operation</button><br>
-  <button type='button' onclick='watch();'>Execute NFC watch operation</button><br>
+  <button type='button' onclick='push();'>Push message to tag:</button>
+  <input type="text" name="textfield" id="textfield" /><br>
+  <button type='button' onclick='watch();'>Read data from tag</button><br>
   <div id='log'></div>
   <script>
   function push() {
-    navigator.nfc.push("Sending NFC push message!")
+    var text = document.getElementById("textfield").value;
+    log("Pushing message: " + text);
+    navigator.nfc.push(text)
     .then(() => {
         log("Message pushed.");
     }).catch((error) => {
@@ -57,9 +60,9 @@
         processMessage(message);
       }
     }).then(() => {
-      console.log("Added a watch.");
+      log("Added a watch.");
     }).catch((error) => {
-      console.log("Adding watch failed: " + error.name);
+      log("Adding watch failed: " + error.name);
     });
 
     function processMessage(message) {
