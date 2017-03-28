@@ -62,7 +62,7 @@
     }).then(() => {
       log("Added a watch.");
     }).catch((error) => {
-      log("Adding watch failed: " + error.name);
+      log("Adding watch failed with error: " + error.message);
     });
 
     function processMessage(message) {
