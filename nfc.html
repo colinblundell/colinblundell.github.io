@@ -34,9 +34,9 @@
     log('NFC API found.');
   });
 
-  function push(text) {
+  function push(nfc, text) {
     log("Pushing message: " + text);
-    navigator.nfc.push(text)
+    nfc.push(text)
     .then(() => {
         log("Message pushed.");
     }).catch((error) => {
@@ -44,8 +44,8 @@
     });
   }
 
-  function watch() {
-    navigator.nfc.watch((message) => {
+  function watch(nfc) {
+    nfc.watch((message) => {
       if (message.data[0].recordType == 'empty') {
         log('Read empty message');
       } else {
@@ -86,13 +86,13 @@
 </script>
 <body>
   <div>colinblundell.github.com</div>
-  <button type='button' onclick='push(document.getElementById("textfield").value);'>Push message to tag:</button>
+  <button type='button' onclick='push(navigator.nfc, document.getElementById("textfield").value);'>Push message to tag:</button>
   <input type="text" name="textfield" id="textfield" /><br>
-  <button type='button' onclick='watch();'>Read data from tag</button><br>
+  <button type='button' onclick='watch(navigator.nfc);'>Read data from tag</button><br>
   <div id='log'></div>
   <script>
 </script>
-<iframe srcdoc="<button type='button' onclick='parent.push(document.getElementById(&quot;textfield&quot;).value);'>Push message to tag from iframe:</button> <input type='text' name='textfield' id='textfield' /><br> <button type='button' onclick='parent.watch();'>Read data from tag from iframe</button><br>"
+<iframe srcdoc="<button type='button' onclick='parent.push(navigator.nfc, document.getElementById(&quot;textfield&quot;).value);'>Push message to tag from iframe:</button> <input type='text' name='textfield' id='textfield' /><br> <button type='button' onclick='parent.watch(navigator.nfc);'>Read data from tag from iframe</button><br>"
 >
 </iframe>
 </body>
