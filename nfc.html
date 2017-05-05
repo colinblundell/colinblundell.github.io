@@ -33,14 +33,7 @@
 
     log('NFC API found.');
   });
-</script>
-<body>
-  <div>colinblundell.github.com</div>
-  <button type='button' onclick='push();'>Push message to tag:</button>
-  <input type="text" name="textfield" id="textfield" /><br>
-  <button type='button' onclick='watch();'>Read data from tag</button><br>
-  <div id='log'></div>
-  <script>
+
   function push() {
     var text = document.getElementById("textfield").value;
     log("Pushing message: " + text);
@@ -51,6 +44,7 @@
         log("Push failed with error: " + error.message);
     });
   }
+
   function watch() {
     navigator.nfc.watch((message) => {
       if (message.data[0].recordType == 'empty') {
@@ -91,6 +85,17 @@
     }
   }
 </script>
+<body>
+  <div>colinblundell.github.com</div>
+  <button type='button' onclick='push();'>Push message to tag:</button>
+  <input type="text" name="textfield" id="textfield" /><br>
+  <button type='button' onclick='watch();'>Read data from tag</button><br>
+  <div id='log'></div>
+  <script>
+</script>
+<iframe srcdoc="<button type='button' onclick='parent.push();'>Push message to tag from iframe:</button> <input type='text' name='textfield' id='textfield' /><br> <button type='button' onclick='watch();'>Read data from tag from iframe</button><br>"
+>
+</iframe>
 </body>
 </html>
 
